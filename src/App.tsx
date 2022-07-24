@@ -1,31 +1,136 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { ThemeProvider } from '@mui/material/styles';
+import { 
+  Button, 
+  CssBaseline,
+  Grid,
+} from '@mui/material';
+import theme from './styles/theme';
+import { darkTheme } from './styles/theme';
+import HomeMain from './components/HomeMain';
+import SearchResult from './components/SearchResult';
+import SingleBook from './components/SingleBook';
 
-import { Box, CssBaseline, Paper, Typography } from "@mui/material";
+import book1 from './img/book1.png';
+import book2 from './img/book2.jpg';
+// import book3 from './img/book3.jfif';
 
 function App() {
+
   return (
-    <>
-      <CssBaseline />
-      <Box
-        height="100vh"
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        flexDirection="column"
-      >
-        <Paper
-          elevation={3}
-          sx={{ padding: "1rem", backgroundColor: "secondary.light" }}
-        >
-          <Typography color="primary.dark" variant="h1">
-            Starter App
-          </Typography>
-        </Paper>
-      </Box>
-    </>
+    <div className="App">
+      <ThemeProvider theme={theme}>
+        <CssBaseline>
+          <Grid container flexDirection='column' flexWrap='nowrap' minHeight='366px' height="100%">
+            <ThemeProvider theme={darkTheme}>
+                <HomeMain />
+            </ThemeProvider>
+            <SearchResult apiResultItems={apiResultItems} />
+            {/* <SingleBook apiResultItem={apiResultItems[0]} /> */}
+          </Grid>
+        </CssBaseline>
+      </ThemeProvider>
+    </div>
   );
 }
+
+const apiResultItems = [
+    {
+        img: book1 ,
+        category: 'computers',
+        name: 'Eloquent JavaScript: A Modern Introduction to Programming',
+        author: 'Marijn Haverbeke',
+    },
+    {
+        img: book2 ,
+        category: 'computers',
+        name: 'Eloquent JavaScript: A Modern Introduction to Programming',
+        author: 'Marijn Haverbeke',
+    },
+    {
+        img: '/img/book1.png' ,
+        category: 'computers',
+        name: 'Eloquent JavaScript: A Modern Introduction to Programming',
+        author: 'Marijn Haverbeke',
+    },
+    {
+        img: '/img/book1.png' ,
+        category: 'computers',
+        name: 'Eloquent JavaScript: A Modern Introduction to Programming',
+        author: 'Marijn Haverbeke',
+    },
+    {
+        img: '/img/book1.png' ,
+        category: 'computers',
+        name: 'Eloquent JavaScript: A Modern Introduction to Programming',
+        author: 'Marijn Haverbeke',
+    },
+    {
+        img: '/img/book1.png' ,
+        category: 'computers',
+        name: 'Eloquent JavaScript: A Modern Introduction to Programming',
+        author: 'Marijn Haverbeke',
+    },
+    {
+        img: '/img/book1.png' ,
+        category: 'computers',
+        name: 'Eloquent JavaScript: A Modern Introduction to Programming',
+        author: 'Marijn Haverbeke',
+    },
+    {
+        img: '/img/book1.png' ,
+        category: 'computers',
+        name: 'Eloquent JavaScript: A Modern Introduction to Programming',
+        author: 'Marijn Haverbeke',
+    },
+    {
+        img: '/img/book1.png' ,
+        category: 'computers',
+        name: 'Eloquent JavaScript: A Modern Introduction to Programming',
+        author: 'Marijn Haverbeke',
+    },
+    {
+        img: '/img/book1.png' ,
+        category: 'computers',
+        name: 'Eloquent JavaScript: A Modern Introduction to Programming',
+        author: 'Marijn Haverbeke',
+    },
+    {
+        img: '/img/book1.png' ,
+        category: 'computers',
+        name: 'Eloquent JavaScript: A Modern Introduction to Programming',
+        author: 'Marijn Haverbeke',
+    },
+    {
+        img: '/img/book1.png' ,
+        category: 'computers',
+        name: 'Eloquent JavaScript: A Modern Introduction to Programming',
+        author: 'Marijn Haverbeke',
+    },
+    {
+        img: '/img/book1.png' ,
+        category: 'computers',
+        name: 'Eloquent JavaScript: A Modern Introduction to Programming',
+        author: 'Marijn Haverbeke',
+    },
+    {
+        img: '/img/book1.png' ,
+        category: 'computers',
+        name: 'Eloquent JavaScript: A Modern Introduction to Programming',
+        author: 'Marijn Haverbeke',
+    },
+    {
+        img: '/img/book1.png' ,
+        category: 'computers',
+        name: 'Eloquent JavaScript: A Modern Introduction to Programming',
+        author: 'Marijn Haverbeke',
+    },
+    {
+        img: '/img/book1.png' ,
+        category: 'computers',
+        name: 'Eloquent JavaScript: A Modern Introduction to Programming',
+        author: 'Marijn Haverbeke',
+    }
+]
 
 export default App;
