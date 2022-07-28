@@ -16,8 +16,9 @@ import {
 
 import SearchIcon from "@mui/icons-material/Search"
 
-const categories = ['all', 'art', 'biography', 'computers', 'history', 'medical', 'poetry'];
-const sortTypes = ['relevance','newest'];
+import { Outlet } from "react-router-dom";
+
+import { categories , sortTypes } from "../../const";
 
 const HomeMain = () => {
 
@@ -90,15 +91,6 @@ const HomeMain = () => {
                     </Grid> 
                </Box>
             </HomePaper>
-            {
-                /*
-                HomePaper
-                Header
-                SearchElem
-                CategoriesFilter
-                SortConfSelect
-                */
-            }
         </>
     )
 }

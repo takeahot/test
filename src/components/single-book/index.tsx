@@ -6,16 +6,17 @@ import {
     Link,
     Box,
 } from "@mui/material";
-import book1 from '../../img/book1.png'
+import { getBookItem } from "../../data";
+import { useParams } from "react-router-dom";
 
-interface apiResultItem {
-        img: string;
-        category: string;
-        name: string;
-        author: string;
-}
+import E404 from "../e-404"
 
-const SingleBook = (props: {apiResultItem: apiResultItem}) => {
+const SingleBook = () => {
+    const params = useParams();
+    if (params.bookId === undefined) return <E404 />
+    const bookData = getBookItem(params.bookId);
+    if (bookData === undefined) return <E404 />
+
     return (
         <>
             <Grid 
@@ -33,12 +34,10 @@ const SingleBook = (props: {apiResultItem: apiResultItem}) => {
                 >
                     <Box
                         component='img'
-                        src={props.apiResultItem.img}
+                        src={bookData.volumeInfo.imageLinks.thumbnail}
                         width='55%'
                         boxShadow={22}
-                    >
-
-                    </Box>
+                    />
                 </Grid>
                 <Grid 
                     item 
@@ -53,12 +52,13 @@ const SingleBook = (props: {apiResultItem: apiResultItem}) => {
                     <Grid item pt={5}  >
                         <Breadcrumbs sx={{}}>
                         {
-                            [props.apiResultItem.category].map(item => {
+                            bookData.volumeInfo.categories.map(item => {
                                 return (
                                     <Link 
                                         href={item} 
                                         underline='hover' 
                                         color='inherit' 
+                                        key={item}
                                     >
                                         {item}
                                     </Link>
@@ -69,38 +69,28 @@ const SingleBook = (props: {apiResultItem: apiResultItem}) => {
                     </Grid>
                     <Grid item pt={4}>
                         <Typography variant='h5' >
-                            {props.apiResultItem.name}
+                            {bookData.volumeInfo.title}
                         </Typography>
                     </Grid>
                     <Grid item pt={1}>
                         <Link 
+                            href={`/search-result?authors=${bookData.volumeInfo.authors[0]||""}`}
                             variant='body2' 
                             color='inherit' 
                             underline='always'
-                            pt={20}
                         >
-                            {props.apiResultItem.author}
+                            {bookData.volumeInfo.authors.join(' , ')}
                         </Link>
                     </Grid>
                     <Grid item pt={3} pb={8}>
                         <Paper>
                             <Typography p={2}>
-                                {props.apiResultItem.name}
+                                {bookData.searchInfo.textSnippet }
                             </Typography>
                         </Paper>
                     </Grid>
                 </Grid>
             </Grid>
-{/* 
-            <div style={{display:'flex', flexDirection:'row', minHeight: '800px'}}>
-                <div style={{display: 'flex', width: '40%', alignItems:'center'}}>
-                    <img src={book1} alt="" style={{width: '40%'}}/>
-                </div>
-                <div>
-
-                </div>
-
-            </div> */}
         </>
     )
 }

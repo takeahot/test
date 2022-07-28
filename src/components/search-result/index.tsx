@@ -8,18 +8,11 @@ import {
 } from '@mui/material'
 import { GrayCard , BookCover, CategoriesTypography } from '../../styles/searchResult';
 
-interface SearchResultProps {
-    apiResultItems: Array<{
-        img: string;
-        category: string;
-        name: string;
-        author: string;
-    }>
-}
+import answer from "../../types/serverAnswer"
 
-const SearchResult = (props: SearchResultProps): JSX.Element => {
+const SearchResult = (props: {serverResponse: answer }): JSX.Element => {
 
-    const resultCount = '446';
+    const resultCount = props.serverResponse.totalItems;
 
     return (
         <>
@@ -30,26 +23,26 @@ const SearchResult = (props: SearchResultProps): JSX.Element => {
             </Box>
             <Grid container spacing={6} px={5} py={2}>
                 {
-                    props.apiResultItems.map(item => {
+                    props.serverResponse.items.map(item => {
                         return ( 
-                        <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={item.name + Math.random()}>
+                        <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={item.id}>
                             <GrayCard elevation={0}>
-                                <CardActionArea>
+                                <CardActionArea href={`/book/${item.id}`}>
                                     <BookCover
                                         component='img'
-                                        image={item.img}
+                                        image={item.volumeInfo.imageLinks.thumbnail}
                                         height="270px"
                                         width='auto'
                                     />
                                     <CardContent>
                                         <CategoriesTypography variant='body1'>
-                                            {item.category}
+                                            {item.volumeInfo.categories[0]}
                                         </CategoriesTypography>
                                         <Typography variant='h6'>
-                                            {item.name}
+                                            {item.volumeInfo.title}
                                         </Typography> 
                                         <Typography variant='body2'>
-                                            {item.author}
+                                            {item.volumeInfo.authors.join(' , ')}
                                         </Typography> 
                                     </CardContent>
                                 </CardActionArea>
