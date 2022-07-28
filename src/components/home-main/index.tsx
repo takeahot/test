@@ -20,7 +20,45 @@ import { Outlet } from "react-router-dom";
 
 import { categories , sortTypes } from "../../const";
 
-const HomeMain = () => {
+import { connect , ConnectedProps } from "react-redux";
+import { bindActionCreators, Dispatch } from "@reduxjs/toolkit";
+import { Actions } from "../../types/action";
+import { State } from "../../types/state";
+import { changeKeyWord , changeCategory, changeSortBy } from "../../store/action";
+
+import { KeyboardEvent, useRef } from "react";
+
+const mapStateToProps =  ({ keyWord , category, sortBy }: State) => ({
+    keyWord, 
+    category, 
+    sortBy
+})
+
+const mapDispatchToProps = (dispatch: Dispatch< Actions >) => bindActionCreators({
+        onChangeKeyWord: changeKeyWord,
+        onChangeCategory: changeCategory,
+        onChangeSortBy: changeSortBy,
+    }, dispatch)
+
+const connector = connect( mapStateToProps ,mapDispatchToProps );
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+const HomeMain = (props: PropsFromRedux) => {
+    const { keyWord , category , sortBy, onChangeKeyWord , onChangeCategory , onChangeSortBy } = props;
+    
+
+    const inp = useRef<HTMLInputElement>(null)
+    const onClickSearchIcon = () => {
+        if (inp.current) {
+            onChangeKeyWord(inp.current.value)
+        }
+    }
+    const onPressEnter = (e: KeyboardEvent<HTMLInputElement> ) => {
+        if (e.key === 'Enter') {
+            onClickSearchIcon();
+        }
+    }
 
     return (
         <>
@@ -37,10 +75,13 @@ const HomeMain = () => {
                                 fullWidth
                                 size='small'
                                 endAdornment={
-                                    <IconButton>
+                                    <IconButton onClick={onClickSearchIcon}>
                                         <SearchIcon></SearchIcon>
                                     </IconButton>
                                 } 
+                                inputRef={inp}
+                                defaultValue={keyWord}
+                                onKeyPress={onPressEnter} 
                             />
                         </Grid>
                         <Grid item xs={6}>
@@ -95,4 +136,5 @@ const HomeMain = () => {
     )
 }
 
-export default HomeMain;
+export {HomeMain};
+export default connector(HomeMain);

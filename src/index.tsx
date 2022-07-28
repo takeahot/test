@@ -8,7 +8,13 @@ import { ThemeProvider } from '@mui/material/styles';
 import theme from './styles/theme'
 import { CssBaseline } from '@mui/material';
 
+import { configureStore } from '@reduxjs/toolkit';
+import { reducer } from './store/reducer'
+import { Provider } from 'react-redux'
 
+const store = configureStore({
+  reducer: reducer
+})
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -16,11 +22,13 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
+    <Provider store={store}>
       <ThemeProvider theme={theme}>
         <CssBaseline>
           <App />
         </CssBaseline>
       </ThemeProvider>
+    </Provider>
   </React.StrictMode>
 );
 
