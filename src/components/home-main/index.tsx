@@ -16,7 +16,12 @@ import {
 
 import SearchIcon from "@mui/icons-material/Search"
 
-import { Outlet } from "react-router-dom";
+import { 
+    Outlet, 
+    useSearchParams ,
+    useNavigate ,
+    useMatch
+} from "react-router-dom";
 
 import { categories , sortTypes } from "../../const";
 
@@ -26,13 +31,13 @@ import { Actions } from "../../types/action";
 import { State } from "../../types/state";
 import { changeKeyWord , changeCategory, changeSortBy } from "../../store/action";
 
-import { KeyboardEvent, useRef } from "react";
+import { KeyboardEvent, useEffect, useRef } from "react";
 
-const mapStateToProps =  ({ keyWord , category, sortBy }: State) => ({
-    keyWord, 
-    category, 
-    sortBy
-})
+// const mapStateToProps =  ({ keyWord , category, sortBy }: State) => ({
+//     keyWord, 
+//     category, 
+//     sortBy
+// })
 
 const mapDispatchToProps = (dispatch: Dispatch< Actions >) => bindActionCreators({
         onChangeKeyWord: changeKeyWord,
@@ -40,18 +45,43 @@ const mapDispatchToProps = (dispatch: Dispatch< Actions >) => bindActionCreators
         onChangeSortBy: changeSortBy,
     }, dispatch)
 
-const connector = connect( mapStateToProps ,mapDispatchToProps );
+const connector = connect( null /*mapStateToProps*/ ,mapDispatchToProps );
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 const HomeMain = (props: PropsFromRedux) => {
-    const { keyWord , category , sortBy, onChangeKeyWord , onChangeCategory , onChangeSortBy } = props;
+    const { /*keyWord , category , sortBy,*/ onChangeKeyWord , onChangeCategory , onChangeSortBy } = props;
+    const matchUrlSearchQuery = useMatch('/search-result');
+    const matchUrlEmpty = useMatch('')
+    const navigate = useNavigate();
+    let [ searchParams , setSearchParams ] = useSearchParams();
+    let params: {[key: string]: string} = {};
+    for ( const entry of Array.from(searchParams.entries())) {
+        params[entry[0]] = entry[1];
+    }
     
+    useEffect(() => {
+        onChangeKeyWord(params.q || '');
+        params.q || matchUrlEmpty || navigate('/');
+        console.log('keyWord update');
+    },[params])
 
     const inp = useRef<HTMLInputElement>(null)
     const onClickSearchIcon = () => {
         if (inp.current) {
-            onChangeKeyWord(inp.current.value)
+            if (!!inp.current.value) {
+                if (!matchUrlSearchQuery) {
+                    navigate(`/search-result/?q=${inp.current.value}`);
+                } else {
+                    inp.current.value !== params.q && setSearchParams({q: inp.current.value})
+                }
+            } else {
+                    setSearchParams({})
+            }
+        } else {
+            return (
+                <h1> unknown error </h1>
+            )
         }
     }
     const onPressEnter = (e: KeyboardEvent<HTMLInputElement> ) => {
@@ -59,7 +89,6 @@ const HomeMain = (props: PropsFromRedux) => {
             onClickSearchIcon();
         }
     }
-
     return (
         <>
             < HomePaper elevation={0} sx={{ pb: 3 }}>
@@ -80,7 +109,7 @@ const HomeMain = (props: PropsFromRedux) => {
                                     </IconButton>
                                 } 
                                 inputRef={inp}
-                                defaultValue={keyWord}
+                                defaultValue={params.q || ''}
                                 onKeyPress={onPressEnter} 
                             />
                         </Grid>
