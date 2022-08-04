@@ -1,9 +1,5 @@
-import { CategoriesType, SortTypesType } from "./app"
-import Answer from "./serverAnswer"
+import { store } from "../store";
 
-export type State = {
-    searchResult: Answer,
-    keyWord: string,
-    category: CategoriesType,
-    sortBy: SortTypesType,
-}
+export type State = ReturnType<typeof store.getState>
+
+export type AppDispatch = typeof store.dispatch

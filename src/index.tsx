@@ -8,13 +8,8 @@ import { ThemeProvider } from '@mui/material/styles';
 import theme from './styles/theme'
 import { CssBaseline } from '@mui/material';
 
-import { configureStore } from '@reduxjs/toolkit';
-import { reducer } from './store/reducer'
+import { store } from './store';
 import { Provider } from 'react-redux'
-
-const store = configureStore({
-  reducer: reducer
-})
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
