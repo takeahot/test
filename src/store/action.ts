@@ -1,5 +1,4 @@
 import { createAction } from '@reduxjs/toolkit'
-import { ActionType } from '../types/action'
 import { CategoriesType, SortTypesType } from '../types/app'
 import Answer from '../types/serverAnswer'
 
