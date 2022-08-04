@@ -25,30 +25,15 @@ import {
 
 import { categories , sortTypes } from "../../const";
 
-import { connect , ConnectedProps } from "react-redux";
+import { connect , ConnectedProps, useDispatch } from "react-redux";
 import { bindActionCreators, Dispatch } from "@reduxjs/toolkit";
+import { useAppDispatch } from "../../hooks";
 import { changeKeyWord , changeCategory, changeSortBy } from "../../store/action";
 
 import { KeyboardEvent, useEffect, useRef } from "react";
 
-// const mapStateToProps =  ({ keyWord , category, sortBy }: State) => ({
-//     keyWord, 
-//     category, 
-//     sortBy
-// })
-
-const mapDispatchToProps = (dispatch: Dispatch< Actions >) => bindActionCreators({
-        onChangeKeyWord: changeKeyWord,
-        onChangeCategory: changeCategory,
-        onChangeSortBy: changeSortBy,
-    }, dispatch)
-
-const connector = connect( null /*mapStateToProps*/ ,mapDispatchToProps );
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-const HomeMain = (props: PropsFromRedux) => {
-    const { /*keyWord , category , sortBy,*/ onChangeKeyWord , onChangeCategory , onChangeSortBy } = props;
+const HomeMain = () => {
+    const dispatch = useAppDispatch();
     const matchUrlSearchQuery = useMatch('/search-result');
     const matchUrlEmpty = useMatch('')
     const navigate = useNavigate();
@@ -59,7 +44,7 @@ const HomeMain = (props: PropsFromRedux) => {
     }
     
     useEffect(() => {
-        onChangeKeyWord(params.q || '');
+        dispatch(changeKeyWord(params.q || ''));
         params.q || matchUrlEmpty || navigate('/');
         console.log('keyWord update');
     },[params])
@@ -87,6 +72,7 @@ const HomeMain = (props: PropsFromRedux) => {
             onClickSearchIcon();
         }
     }
+
     return (
         <>
             < HomePaper elevation={0} sx={{ pb: 3 }}>
@@ -163,5 +149,4 @@ const HomeMain = (props: PropsFromRedux) => {
     )
 }
 
-export {HomeMain};
-export default connector(HomeMain);
+export default HomeMain;
