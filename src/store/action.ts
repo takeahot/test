@@ -1,17 +1,9 @@
-import { ActionType , ChangeKeyWordAction , ChangeCategoryAction , ChangeSortByAction } from '../types/action'
+import { createAction } from '@reduxjs/toolkit'
+import { ActionType } from '../types/action'
 import { CategoriesType, SortTypesType } from '../types/app'
+import Answer from '../types/serverAnswer'
 
-export const changeKeyWord = (word: string): ChangeKeyWordAction => ({
-    type: ActionType.ChangeKeyWord,
-    payload: word,
-})
-
-export const changeCategory = (category: CategoriesType): ChangeCategoryAction => ({
-    type: ActionType.ChangeCategory,
-    payload: category,
-})
-
-export const changeSortBy = (sort: SortTypesType ): ChangeSortByAction => ({
-    type: ActionType.ChangeSortBy,
-    payload: sort,
-})
+export const changeKeyWord = createAction<string>(ActionType.ChangeKeyWord);
+export const changeCategory = createAction<CategoriesType>(ActionType.ChangeCategory); 
+export const changeSortBy = createAction<SortTypesType>(ActionType.ChangeSortBy); 
+export const loadBookList = createAction<Answer>(ActionType.LoadBookList); 

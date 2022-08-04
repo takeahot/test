@@ -1,27 +1,15 @@
 import { CategoriesType, SortTypesType } from "../types/app";
+import { changeKeyWord , changeCategory , changeSortBy , loadBookList } from "../store/action";
 
 export enum ActionType {
     ChangeKeyWord = 'search/changeKeyWord',
     ChangeCategory = 'search/changeCategory',
     ChangeSortBy = 'search/changeSortBy',
-}
-
-export type ChangeKeyWordAction = {
-    type: ActionType.ChangeKeyWord,
-    payload: string;
-}
-
-export type ChangeCategoryAction = {
-    type: ActionType.ChangeCategory,
-    payload: CategoriesType
-}
-
-export type ChangeSortByAction = {
-    type: ActionType.ChangeSortBy,
-    payload: SortTypesType
+    LoadBookList = 'data/loadBookList',
 }
 
 export type Actions = 
-    ChangeKeyWordAction|
-    ChangeCategoryAction|
-    ChangeSortByAction
+    | ReturnType<typeof changeKeyWord>
+    | ReturnType<typeof changeCategory>
+    | ReturnType<typeof changeSortBy>
+    | ReturnType<typeof loadBookList>
