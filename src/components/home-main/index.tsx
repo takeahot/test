@@ -27,8 +27,6 @@ import { categories , sortTypes } from "../../const";
 
 import { connect , ConnectedProps } from "react-redux";
 import { bindActionCreators, Dispatch } from "@reduxjs/toolkit";
-import { Actions } from "../../types/action";
-import { State } from "../../types/state";
 import { changeKeyWord , changeCategory, changeSortBy } from "../../store/action";
 
 import { KeyboardEvent, useEffect, useRef } from "react";

@@ -1,4 +1,3 @@
-import { ActionType, Actions } from "../types/action";
 import { DEFAULT_CATEGORY , DEFUALT_SORT_BY , DEFAULT_KEY_WORD} from "../const"
 import { Answer } from '../types/serverAnswer'
 import { createReducer } from "@reduxjs/toolkit";
