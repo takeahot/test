@@ -25,12 +25,13 @@ import {
 
 import { categories , sortTypes } from "../../const";
 
-import { connect , ConnectedProps, useDispatch } from "react-redux";
-import { bindActionCreators, Dispatch } from "@reduxjs/toolkit";
-import { useAppDispatch } from "../../hooks";
+import { useAppDispatch , useAppSelector } from "../../hooks";
 import { changeKeyWord , changeCategory, changeSortBy } from "../../store/action";
 
 import { KeyboardEvent, useEffect, useRef } from "react";
+import { fetchBooksList } from "../../store/api-actions";
+
+import paramsToObj from "../../utils/paramsToObj";
 
 const HomeMain = () => {
     const dispatch = useAppDispatch();
@@ -38,16 +39,16 @@ const HomeMain = () => {
     const matchUrlEmpty = useMatch('')
     const navigate = useNavigate();
     let [ searchParams , setSearchParams ] = useSearchParams();
-    let params: {[key: string]: string} = {};
-    for ( const entry of Array.from(searchParams.entries())) {
-        params[entry[0]] = entry[1];
-    }
+    const params = paramsToObj(searchParams);
     
     useEffect(() => {
         dispatch(changeKeyWord(params.q || ''));
+        dispatch(fetchBooksList(params));
         params.q || matchUrlEmpty || navigate('/');
         console.log('keyWord update');
     },[params])
+
+    // console.log(useAppSelector((state) => state))
 
     const inp = useRef<HTMLInputElement>(null)
     const onClickSearchIcon = () => {
