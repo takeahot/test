@@ -20,7 +20,6 @@ import {
 import { Box } from '@mui/system';
 // import book3 from './img/book3.jfif';
 
-import answer from '../../data'
 import { answerTypeCheck } from '../../data'
 
 function App() {
@@ -44,7 +43,7 @@ function App() {
                         </Grid>
                     }
                 >
-                    <Route path="search-result" element={<SearchResult serverResponse={answer} />} />
+                    <Route path="search-result" element={<SearchResult />} />
                     <Route path="book">
                         <Route 
                             index

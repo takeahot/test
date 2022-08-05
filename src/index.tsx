@@ -10,6 +10,14 @@ import { CssBaseline } from '@mui/material';
 
 import { store } from './store';
 import { Provider } from 'react-redux'
+import { fetchBooksList } from './store/api-actions';
+import { PanoramaRounded } from '@mui/icons-material';
+import paramsToObj from './utils/paramsToObj';
+
+const searchParams = new URLSearchParams(window.location.search);
+
+store.dispatch(fetchBooksList(paramsToObj(searchParams)));
+console.log('index',store.getState());
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

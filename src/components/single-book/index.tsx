@@ -6,14 +6,19 @@ import {
     Link,
     Box,
 } from "@mui/material";
-import { getBookItem } from "../../data";
 import { useParams } from "react-router-dom";
+import { useAppSelector } from "../../hooks";
 
 import E404 from "../e-404"
 
 const SingleBook = () => {
+    console.log('render single book');
+    const searchResult = useAppSelector((state) => state.searchResult)
     const params = useParams();
     if (params.bookId === undefined) return <E404 />
+
+    const getBookItem = (id: string) => searchResult.items.find(item => item.id === id)
+        
     const bookData = getBookItem(params.bookId);
     if (bookData === undefined) return <E404 />
 
@@ -34,7 +39,7 @@ const SingleBook = () => {
                 >
                     <Box
                         component='img'
-                        src={bookData.volumeInfo.imageLinks.thumbnail}
+                        src={bookData.volumeInfo.imageLinks ? bookData.volumeInfo.imageLinks.thumbnail : '/img/vinyl.png'}
                         width='55%'
                         boxShadow={22}
                     />
