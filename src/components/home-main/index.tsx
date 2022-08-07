@@ -12,9 +12,14 @@ import {
     IconButton, 
     Grid,
     InputLabel,
+    StackTypeMap,
+    SelectChangeEvent,
 } from "@mui/material";
 
 import SearchIcon from "@mui/icons-material/Search"
+
+import { ThemeProvider } from '@mui/material/styles';
+import { darkTheme } from '../../styles/theme';
 
 import { 
     Outlet, 
@@ -26,126 +31,110 @@ import {
 import { categories , sortTypes } from "../../const";
 
 import { useAppDispatch , useAppSelector } from "../../hooks";
-import { changeKeyWord , changeCategory, changeSortBy } from "../../store/action";
+import { saveBookList, isDataLoaded } from "../../store/action";
 
-import { KeyboardEvent, useEffect, useRef } from "react";
+import React, { ChangeEvent, FormEvent, KeyboardEvent, PropsWithChildren, useEffect, useRef, useState } from "react";
 import { fetchBooksList } from "../../store/api-actions";
 
 import paramsToObj from "../../utils/paramsToObj";
+import { URLSearchParamsInit } from 'react-router-dom'
+import { CategoriesType, SortTypesType } from "../../types/app";
 
-const HomeMain = () => {
-    const dispatch = useAppDispatch();
-    const matchUrlSearchQuery = useMatch('/search-result');
-    const matchUrlEmpty = useMatch('')
-    const navigate = useNavigate();
-    let [ searchParams , setSearchParams ] = useSearchParams();
-    const params = paramsToObj(searchParams);
-    
-    useEffect(() => {
-        dispatch(changeKeyWord(params.q || ''));
-        dispatch(fetchBooksList(params));
-        params.q || matchUrlEmpty || navigate('/');
-        console.log('keyWord update');
-    },[params])
+interface HomeMainProps extends PropsWithChildren {
+    q: string;
+    subject: string;
+    orderBy: string;
+    onChangeForm: (e: FormEvent<HTMLFormElement>) => void
+}
 
-    // console.log(useAppSelector((state) => state))
-
-    const inp = useRef<HTMLInputElement>(null)
-    const onClickSearchIcon = () => {
-        if (inp.current) {
-            if (!!inp.current.value) {
-                if (!matchUrlSearchQuery) {
-                    navigate(`/search-result/?q=${inp.current.value}`);
-                } else {
-                    inp.current.value !== params.q && setSearchParams({q: inp.current.value})
-                }
-            } else {
-                    setSearchParams({})
-            }
-        } else {
-            return (
-                <h1> unknown error </h1>
-            )
-        }
-    }
-    const onPressEnter = (e: KeyboardEvent<HTMLInputElement> ) => {
-        if (e.key === 'Enter') {
-            onClickSearchIcon();
-        }
-    }
-
+const HomeMain = (Props: HomeMainProps ) => {
+    const { q: qInit , subject: subjectInit , orderBy: sortByItnit , onChangeForm } = Props;
+    //make controled because MUI show error, when change uncontrolled select
+    const [ q , setQ ] = useState(qInit);
+    const [ subject , setSubject ] = useState(subjectInit);
+    const [ sortBy , setSortBy ] = useState(sortByItnit);
+    console.log('render HomeMain');
     return (
         <>
-            < HomePaper elevation={0} sx={{ pb: 3 }}>
-                <Box px={{xs: 1, sm: 8, md: 25, lg: 30, xl: 40}}>
-                    <Grid container spacing={3}>
-                        <Grid item xs={12}>
-                            <MainHeader variant='h2' align='center'>
-                                Search for books
-                            </MainHeader>
-                        </Grid> 
-                        <Grid item xs={12}>
-                            <MainInput
-                                fullWidth
-                                size='small'
-                                endAdornment={
-                                    <IconButton onClick={onClickSearchIcon}>
-                                        <SearchIcon></SearchIcon>
-                                    </IconButton>
-                                } 
-                                inputRef={inp}
-                                defaultValue={params.q || ''}
-                                onKeyPress={onPressEnter} 
-                            />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <FormControl fullWidth>
-                                <InputLabel>
-                                    Categories
-                                </InputLabel>
-                                <Select 
-                                    fullWidth 
-                                    size='small' 
-                                    defaultValue={'all'}
-                                    input={<MainInput />}
-                                    >
-                                    {categories
-                                        .map((item) => (
-                                        <MenuItem
-                                            key={item}
-                                            value={item}
-                                        >
-                                            {item}
-                                        </MenuItem>
-                                        ))}
-                                </Select>
-                            </FormControl>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <FormControl fullWidth>
-                                <InputLabel>
-                                    Sorting by
-                                </InputLabel>
-                                <Select 
-                                    fullWidth
-                                    size='small'
-                                    defaultValue={'relevance'}
-                                    input={<MainInput />}
-                                    >
-                                    {sortTypes
-                                        .map((item) => (
-                                        <MenuItem
-                                            key={item}
-                                            value={item}
-                                        >
-                                            {item}
-                                        </MenuItem>))}
-                                </Select>
-                            </FormControl>
-                        </Grid>
-                    </Grid> 
-               </Box>
-            </HomePaper>
+            <Grid container flexDirection='column' flexWrap='nowrap' minHeight='366px' height="100%">
+                <ThemeProvider theme={darkTheme}>
+                    < HomePaper elevation={0} sx={{ pb: 3 }}>
+                        <Box component='form' id='search-form' onSubmit={onChangeForm} px={{xs: 1, sm: 8, md: 25, lg: 30, xl: 40}}>
+                            <Grid container spacing={3}>
+                                <Grid item xs={12}>
+                                    <MainHeader variant='h2' align='center'>
+                                        Search for books
+                                    </MainHeader>
+                                </Grid> 
+                                <Grid item xs={12}>
+                                    <MainInput
+                                        name='q'
+                                        fullWidth
+                                        size='small'
+                                        endAdornment={
+                                            <IconButton type='submit' form='search-form'>
+                                                <SearchIcon></SearchIcon>
+                                            </IconButton>
+                                        } 
+                                        value={ q || ''}
+                                        onChange={(e) => setQ(e.currentTarget.value)}
+                                    />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <FormControl fullWidth>
+                                        <InputLabel>
+                                            Categories
+                                        </InputLabel>
+                                        <Select 
+                                            name='subject'
+                                            fullWidth 
+                                            size='small' 
+                                            value={ subject || 'all' }
+                                            onChange={(e: SelectChangeEvent<string>) => setSubject(e.target.value)}
+                                            input={<MainInput />}
+                                            >
+                                            {categories
+                                                .map((item) => (
+                                                <MenuItem
+                                                    key={item}
+                                                    value={item}
+                                                >
+                                                    {item}
+                                                </MenuItem>
+                                                ))}
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <FormControl fullWidth>
+                                        <InputLabel>
+                                            Sorting by
+                                        </InputLabel>
+                                        <Select 
+                                            name='orderBy'
+                                            fullWidth
+                                            size='small'
+                                            value={ sortBy || 'relevance'}
+                                            onChange={(e:SelectChangeEvent<string>) => setSortBy(e.target.value)}
+                                            input={<MainInput />}
+                                            >
+                                            {sortTypes
+                                                .map((item) => (
+                                                <MenuItem
+                                                    key={item}
+                                                    value={item}
+                                                >
+                                                    {item}
+                                                </MenuItem>))}
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
+                            </Grid> 
+                        </Box>
+                    </HomePaper>
+                </ThemeProvider>
+                <Outlet />
+            </Grid>
         </>
     )
 }

@@ -13,7 +13,7 @@ export const MainHeader = styled(Typography)`
     color: white;
 `
 export const MainInput = styled(OutlinedInput)`
-        label ~ & {
-            margin-top: 10px;
-        };
+    label ~ & {
+        margin-top: 10px;
+    };
 `

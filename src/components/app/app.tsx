@@ -1,9 +1,7 @@
-import { ThemeProvider } from '@mui/material/styles';
 import { 
-  Grid, 
+    CircularProgress,
   Link,
 } from '@mui/material';
-import { darkTheme } from '../../styles/theme';
 
 import HomeMain from '../home-main';
 import SearchResult from '../search-result';
@@ -14,55 +12,51 @@ import {
     BrowserRouter,
     Routes,
     Route,
-    Outlet,
+    useSearchParams,
+    useNavigate,
 } from 'react-router-dom';
 
 import { Box } from '@mui/system';
-// import book3 from './img/book3.jfif';
-
-import { answerTypeCheck } from '../../data'
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { fetchBooksList } from '../../store/api-actions';
+import { isDataLoaded, saveBookList } from '../../store/action';
+import RoutingAndHomeMain from '../routing-and-home-main';
 
 function App() {
 
-    console.log(answerTypeCheck());
+    // TODO handle error answer
 
-    // return ( <>
-    //     <Typography>Loaded</Typography>
-    // </>)
-  return (
-    <div className="App">
-        <BrowserRouter>
-            <Routes>
-                <Route 
-                    path='/' element={
-                        <Grid container flexDirection='column' flexWrap='nowrap' minHeight='366px' height="100%">
-                            <ThemeProvider theme={darkTheme}>
-                                <HomeMain />
-                            </ThemeProvider>
-                            <Outlet />
-                        </Grid>
-                    }
-                >
-                    <Route path="search-result" element={<SearchResult />} />
-                    <Route path="book">
-                        <Route 
-                            index
-                            element={
-                                <Box my='100px' mx='auto' >
-                                    <Link variant='button' href='/search-result'>
-                                        Back to search-result page
-                                    </Link>
-                                </Box>
-                            }
-                        />
-                        <Route path=':bookId' element={<SingleBook />} /> 
+    console.log('render app');
+
+    return (
+        <div className="App">
+            <BrowserRouter>
+                <Routes>
+                    <Route path='/' element={<RoutingAndHomeMain />}>
+                        <Route path="search-result" element={
+                            // isLoading ? 
+                            // <Box mx='auto' pt='30vh'><CircularProgress /></Box> :
+                            <SearchResult />
+                        } />
+                        <Route path="book">
+                            <Route 
+                                index
+                                element={
+                                    <Box my='100px' mx='auto' >
+                                        <Link variant='button' href='/search-result'>
+                                            Back to search-result page
+                                        </Link>
+                                    </Box>
+                                }
+                            />
+                            <Route path=':bookId' element={<SingleBook />} /> 
+                        </Route>
                     </Route>
-                </Route>
-                <Route path="*" element={<E404 />} />
-           </Routes>
-        </BrowserRouter>
-    </div>
-  );
+                    <Route path="*" element={<E404 />} />
+            </Routes>
+            </BrowserRouter>
+        </div>
+    );
 }
 
 export default App;

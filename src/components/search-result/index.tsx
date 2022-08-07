@@ -7,23 +7,28 @@ import {
     Box,
     CircularProgress,
 } from '@mui/material'
+import { useSearchParams } from 'react-router-dom';
 import { useAppSelector } from '../../hooks';
 import { GrayCard , BookCover, CategoriesTypography } from '../../styles/searchResult';
 
 import answer from "../../types/serverAnswer"
+import E404 from '../e-404';
 
 const SearchResult = (): JSX.Element => {
 
-    console.log('render search result');
+    const [searchParams] = useSearchParams();
     const { searchResult : serverResponse , loading } = useAppSelector((state) => state)
+
     if ( loading ) {
         return (<Box mx='auto' pt='30vh'>
             <CircularProgress />
         </Box>)
     } 
-    console.log(serverResponse);
+
+    if (!serverResponse) return <E404> ' нет ответа от сервера ' </E404>
     const resultCount = serverResponse.totalItems;
 
+    // console.log('render search result');
     return (
         <>
             <Box>

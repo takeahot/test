@@ -100,6 +100,6 @@ export type Answer = {
             "kind": string,
             "totalItems": number,
             "items": Array<BookItem>
-}
+} 
 
 export default Answer

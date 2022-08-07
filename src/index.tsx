@@ -14,10 +14,9 @@ import { fetchBooksList } from './store/api-actions';
 import { PanoramaRounded } from '@mui/icons-material';
 import paramsToObj from './utils/paramsToObj';
 
-const searchParams = new URLSearchParams(window.location.search);
+// const searchParams = new URLSearchParams(window.location.search);
 
-store.dispatch(fetchBooksList(paramsToObj(searchParams)));
-console.log('index',store.getState());
+// searchParams.toString() && store.dispatch(fetchBooksList(searchParams))
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -38,4 +37,4 @@ root.render(
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+// reportWebVitals();
