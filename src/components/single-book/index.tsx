@@ -58,6 +58,7 @@ const SingleBook = () => {
                     <Grid item pt={5}  >
                         <Breadcrumbs sx={{}}>
                         {
+                            bookData.volumeInfo.categories ?
                             bookData.volumeInfo.categories.map(item => {
                                 return (
                                     <Link 
@@ -69,7 +70,8 @@ const SingleBook = () => {
                                         {item}
                                     </Link>
                                 )
-                            })
+                            }) :
+                            ''
                         }
                         </Breadcrumbs>
                     </Grid>
@@ -80,21 +82,30 @@ const SingleBook = () => {
                     </Grid>
                     <Grid item pt={1}>
                         <Link 
-                            href={`/search-result?authors=${bookData.volumeInfo.authors.length ?
-                                 bookData.volumeInfo.authors.join(' , ') : 
-                                 ""}
-                                `}
+                            href={`/search-result?authors=
+                                ${
+                                    bookData.volumeInfo.authors ?
+                                        bookData.volumeInfo.authors.join(' , ') : 
+                                        ""
+                                }`}
                             variant='body2' 
                             color='inherit' 
                             underline='always'
                         >
-                            {bookData.volumeInfo.authors.join(' , ')}
+                            {
+                                bookData.volumeInfo.authors ?
+                                    bookData.volumeInfo.authors.join(' , ') : 
+                                    ""
+                            }
                         </Link>
                     </Grid>
                     <Grid item pt={3} pb={8}>
                         <Paper>
                             <Typography p={2}>
-                                {bookData.searchInfo.textSnippet || ''}
+                                {
+                                bookData.searchInfo ?
+                                bookData.searchInfo.textSnippet :
+                                ''}
                             </Typography>
                         </Paper>
                     </Grid>

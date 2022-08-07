@@ -38,6 +38,7 @@ const SearchResult = (): JSX.Element => {
             </Box>
             <Grid container spacing={6} px={5} py={2}>
                 {
+                    serverResponse.items ?
                     serverResponse.items.map(item => {
                         return ( 
                         <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={item.id}>
@@ -64,7 +65,8 @@ const SearchResult = (): JSX.Element => {
                             </GrayCard>
                         </Grid>
                         )
-                    })
+                    }):
+                    ''
                 }
             </Grid>
             <Box px={5} pb={2}>

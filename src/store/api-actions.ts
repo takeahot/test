@@ -16,6 +16,8 @@ export const fetchBooksList = createAsyncThunk <
     async (searchParams , {dispatch, extra: api}) => {
         console.log('data/fetchBooksList start')
         dispatch(isLoadingBookList(true));
+        dispatch(isDataLoaded(false));
+        dispatch(saveBookList(undefined))
         dispatch(onChangeSearchParams(searchParams.toString()))
         const {data} = await api.get<Answer>('/volumes'+'?'+searchParams.toString()+'&maxResults=30')
         dispatch(saveBookList(data));

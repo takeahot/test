@@ -15,24 +15,15 @@ export const RoutingAndHomeMain = () => {
     const [ searchParams , setSearchParams ] = useSearchParams();
     const params = Object.fromEntries(searchParams.entries())
     const navigate = useNavigate();
-    const isUrlSearch = useMatch('search-result')
+    const isUrlSearch = useMatch('/search-result')
     const isUrlRoot = useMatch('/')
 
     useEffect(() => {
-        if(isLoaded || isLoading) {
-            isUrlSearch || navigate('/search-result?' + dataSearchParams)
-        } else {
-            isUrlRoot || searchParams.toString() || navigate('/');
-        }
-    },[isLoaded,isLoading])
-
-    useEffect(() => {
-        if (searchParams.toString() !== dataSearchParams) {
-            if (params.q) {
-                dispatch(fetchBooksList(searchParams))
-            } else {
-                dispatch(saveBookList(undefined)) && dispatch(isDataLoaded(false))
-            } 
+        if ((isUrlRoot || isUrlSearch) && searchParams.toString() && searchParams.toString() !== dataSearchParams) {
+            isUrlSearch || navigate('/search-result?' + searchParams.toString())
+            dispatch(fetchBooksList(searchParams))
+        } else if (isUrlSearch && !searchParams.toString()) {
+            navigate('/');
         }
     },[searchParams.toString()])
 
@@ -46,11 +37,18 @@ export const RoutingAndHomeMain = () => {
             formObj.q = formObj.q + '+subject:' + formObj.subject
         }
         delete formObj.subject
+        const formSearchParams = new URLSearchParams(formObj)
         if ( 
-            searchParams.toString() !== new URLSearchParams(formObj).toString() 
-            && !( searchParams.get('q') === null && formObj.q.trim() ==='')
+            searchParams.toString() !== formSearchParams.toString() 
         ) {
-            formObj.q.trim() ? setSearchParams(formObj) : setSearchParams({});
+           formObj.q.trim() ? 
+                isUrlSearch ?
+                    setSearchParams(formSearchParams.toString()) : 
+                    navigate('/search-result?'+formSearchParams.toString())
+                :
+                isUrlRoot ?
+                    searchParams.toString() && setSearchParams({}):
+                    navigate('/')
         }
         e.preventDefault();
     }
