@@ -7,12 +7,24 @@ import HomeMain from "../home-main";
 
 export const RoutingAndHomeMain = () => {
     const dispatch = useAppDispatch();
-    const { searchParams: dataSearchParams , loading: isLoading , dataLoaded: isLoaded } = useAppSelector((state) => state);
+    const { 
+        searchParams: dataSearchParams , 
+        loading: isLoading , 
+        dataLoaded: isLoaded 
+    } = useAppSelector((state) => state);
     const [ searchParams , setSearchParams ] = useSearchParams();
     const params = Object.fromEntries(searchParams.entries())
     const navigate = useNavigate();
-    const isUrlSearchMatch = useMatch('search-result')
+    const isUrlSearch = useMatch('search-result')
     const isUrlRoot = useMatch('/')
+
+    useEffect(() => {
+        if(isLoaded || isLoading) {
+            isUrlSearch || navigate('/search-result?' + dataSearchParams)
+        } else {
+            isUrlRoot || searchParams.toString() || navigate('/');
+        }
+    },[isLoaded,isLoading])
 
     useEffect(() => {
         if (searchParams.toString() !== dataSearchParams) {
@@ -22,17 +34,7 @@ export const RoutingAndHomeMain = () => {
                 dispatch(saveBookList(undefined)) && dispatch(isDataLoaded(false))
             } 
         }
-        // console.log('sP1',searchParams.toString())
     },[searchParams.toString()])
-    // console.log('sP2',searchParams.toString())
-
-    useEffect(() => {
-        if(isLoaded || isLoading) {
-            isUrlSearchMatch || navigate('/search-result?' + dataSearchParams)
-        } else {
-            isUrlRoot || navigate('/');
-        }
-    },[isLoaded,isLoading])
 
     console.log('render RouterAndHomeMain')
     
@@ -44,12 +46,10 @@ export const RoutingAndHomeMain = () => {
             formObj.q = formObj.q + '+subject:' + formObj.subject
         }
         delete formObj.subject
-        console.log(new URLSearchParams(formObj).toString())
         if ( 
             searchParams.toString() !== new URLSearchParams(formObj).toString() 
             && !( searchParams.get('q') === null && formObj.q.trim() ==='')
         ) {
-            console.log('change searchParam')
             formObj.q.trim() ? setSearchParams(formObj) : setSearchParams({});
         }
         e.preventDefault();

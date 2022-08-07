@@ -80,7 +80,10 @@ const SingleBook = () => {
                     </Grid>
                     <Grid item pt={1}>
                         <Link 
-                            href={`/search-result?authors=${bookData.volumeInfo.authors[0]||""}`}
+                            href={`/search-result?authors=${bookData.volumeInfo.authors.length ?
+                                 bookData.volumeInfo.authors.join(' , ') : 
+                                 ""}
+                                `}
                             variant='body2' 
                             color='inherit' 
                             underline='always'
@@ -91,7 +94,7 @@ const SingleBook = () => {
                     <Grid item pt={3} pb={8}>
                         <Paper>
                             <Typography p={2}>
-                                {bookData.searchInfo.textSnippet }
+                                {bookData.searchInfo.textSnippet || ''}
                             </Typography>
                         </Paper>
                     </Grid>

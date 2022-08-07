@@ -3,7 +3,6 @@ import {
   Link,
 } from '@mui/material';
 
-import HomeMain from '../home-main';
 import SearchResult from '../search-result';
 import SingleBook from '../single-book';
 import E404 from '../e-404';
@@ -12,14 +11,9 @@ import {
     BrowserRouter,
     Routes,
     Route,
-    useSearchParams,
-    useNavigate,
 } from 'react-router-dom';
 
 import { Box } from '@mui/system';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { fetchBooksList } from '../../store/api-actions';
-import { isDataLoaded, saveBookList } from '../../store/action';
 import RoutingAndHomeMain from '../routing-and-home-main';
 
 function App() {
@@ -34,8 +28,6 @@ function App() {
                 <Routes>
                     <Route path='/' element={<RoutingAndHomeMain />}>
                         <Route path="search-result" element={
-                            // isLoading ? 
-                            // <Box mx='auto' pt='30vh'><CircularProgress /></Box> :
                             <SearchResult />
                         } />
                         <Route path="book">
