@@ -77,7 +77,7 @@ const HomeMain = (Props: HomeMainProps ) => {
                                             </IconButton>
                                         } 
                                         value={ q || ''}
-                                        onChange={(e) => setQ(e.currentTarget.value)}
+                                        onChange={(e:ChangeEvent<HTMLInputElement>) => setQ(e.currentTarget.value)}
                                     />
                                 </Grid>
                                 <Grid item xs={6}>

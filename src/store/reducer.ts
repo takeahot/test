@@ -6,12 +6,15 @@ import {
     isLoadingBookList, 
     saveBookList,
     isDataLoaded,
+    isLoadingNextPage,
+    resetdSearchResult,
+    addBookToBookList,
 } from "./action";
 import { CategoriesType, SortTypesType } from "../types/app";
 
 
 const initialState = {
-    searchResult:<Answer | undefined>{
+    searchResult:<Answer>{
         kind: "books#volumes",
         totalItems: 0,
         items: [],
@@ -19,6 +22,7 @@ const initialState = {
     loading: false as boolean,
     dataLoaded: false as boolean,
     searchParams: '' as string,
+    loadingNextPage: false as boolean
 }
 
 const reducer = createReducer( initialState , (builder) => {
@@ -39,6 +43,19 @@ const reducer = createReducer( initialState , (builder) => {
             state.dataLoaded = action.payload;
             console.log(action.type)
         })
+        .addCase( isLoadingNextPage , ( state , action ) => {
+            state.loadingNextPage = action.payload;
+            console.log(action.type)
+        })
+        .addCase( resetdSearchResult , ( state , action ) => {
+            state.searchResult = initialState.searchResult;
+            state.searchParams = initialState.searchParams;
+            console.log(action.type)
+        })
+        .addCase( addBookToBookList , ( state , action ) => {
+            state.searchResult.items = [...state.searchResult.items, ...action.payload];
+            console.log(action.type)
+        })
     })
-
+    
 export {reducer}
