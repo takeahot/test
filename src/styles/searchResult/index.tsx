@@ -11,7 +11,22 @@ export const BookCover = styled(CardMedia)`
 
 export const GrayCard = styled(Card)`
     background-color: whitesmoke;
-    
+    height: 100%;
+    & .MuiCardActionArea-root {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: space-between;
+        height: 100%;
+    }	
+    & .MuiCardContent-root {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: center;
+        flex-grow: 1;
+
+    } 
 ` as typeof Card
 
 export const CategoriesTypography = styled(Typography)`
