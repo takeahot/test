@@ -45,7 +45,7 @@ const SearchResult = (): JSX.Element => {
                                 <CardActionArea href={`/book/${item.id}`}>
                                     <BookCover
                                         component='img'
-                                        image={item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.thumbnail : '/img/vinyl.png'}
+                                        image={item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.thumbnail : '/img/notAvaliableImg.png'}
                                         height="270px"
                                         width='auto'
                                     />

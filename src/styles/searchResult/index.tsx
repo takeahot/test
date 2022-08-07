@@ -11,6 +11,7 @@ export const BookCover = styled(CardMedia)`
 
 export const GrayCard = styled(Card)`
     background-color: whitesmoke;
+    
 ` as typeof Card
 
 export const CategoriesTypography = styled(Typography)`

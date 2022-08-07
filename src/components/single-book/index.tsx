@@ -40,7 +40,7 @@ const SingleBook = () => {
                 >
                     <Box
                         component='img'
-                        src={bookData.volumeInfo.imageLinks ? bookData.volumeInfo.imageLinks.thumbnail : '/img/vinyl.png'}
+                        src={bookData.volumeInfo.imageLinks ? bookData.volumeInfo.imageLinks.thumbnail : '/img/notAvaliableImg.png'}
                         width='55%'
                         boxShadow={22}
                     />
