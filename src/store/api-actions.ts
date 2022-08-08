@@ -4,6 +4,7 @@ import { AxiosInstance } from "axios";
 import Answer from "../types/serverAnswer";
 import { addBookToBookList, isDataLoaded, isLoadingBookList, isLoadingNextPage, onChangeSearchParams, resetdSearchResult, saveBookList } from "./action";
 import { QUANTITY_ITEMS_ON_PAGE } from "../const";
+import { keys } from "../config";
 
 export const fetchBooksList = createAsyncThunk <
     void,
@@ -52,10 +53,12 @@ export const fetchNextPageBooksList = createAsyncThunk <
             pageNumber = state.searchResult.items.length / QUANTITY_ITEMS_ON_PAGE
         }
         const {data} = await api.get<Answer>(
-            `/volumes?
-${searchParams.toString()}
-&maxResults=${QUANTITY_ITEMS_ON_PAGE}
-&startIndex=${pageNumber * QUANTITY_ITEMS_ON_PAGE}`)
+            `/volumes?` + 
+            `${searchParams.toString()}` +
+            `&maxResults=${QUANTITY_ITEMS_ON_PAGE}` +
+            `&startIndex=${pageNumber * QUANTITY_ITEMS_ON_PAGE}` +
+            `&key=${ keys.APIKey }`
+        )
         state.searchResult.items.length ? 
             dispatch(addBookToBookList(data.items)):
             dispatch(saveBookList(data));
