@@ -9,3 +9,4 @@ export const isLoadingBookList = createAction<boolean>('data/isLoadingBookList')
 export const isDataLoaded = createAction<boolean>('data/isDataLoaded');
 export const isLoadingNextPage = createAction<boolean>('data/isLoadingNextPage');
 export const resetdSearchResult = createAction('data/resetdSearchResult');
+export const correctTotalItems = createAction('data/correctTotalItems');

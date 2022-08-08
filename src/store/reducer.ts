@@ -9,6 +9,7 @@ import {
     isLoadingNextPage,
     resetdSearchResult,
     addBookToBookList,
+    correctTotalItems,
 } from "./action";
 import { CategoriesType, SortTypesType } from "../types/app";
 
@@ -54,6 +55,10 @@ const reducer = createReducer( initialState , (builder) => {
         })
         .addCase( addBookToBookList , ( state , action ) => {
             state.searchResult.items = [...state.searchResult.items, ...action.payload];
+            console.log(action.type)
+        })
+        .addCase( correctTotalItems , ( state , action ) => {
+            state.searchResult.totalItems = state.searchResult.items.length;
             console.log(action.type)
         })
     })

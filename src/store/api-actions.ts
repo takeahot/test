@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AppDispatch, State } from "../types/state";
 import { AxiosInstance } from "axios";
 import Answer from "../types/serverAnswer";
-import { addBookToBookList, isDataLoaded, isLoadingBookList, isLoadingNextPage, onChangeSearchParams, resetdSearchResult, saveBookList } from "./action";
+import { addBookToBookList, correctTotalItems, isDataLoaded, isLoadingBookList, isLoadingNextPage, onChangeSearchParams, resetdSearchResult, saveBookList } from "./action";
 import { QUANTITY_ITEMS_ON_PAGE } from "../const";
 import { keys } from "../config";
 
@@ -59,9 +59,11 @@ export const fetchNextPageBooksList = createAsyncThunk <
             `&startIndex=${pageNumber * QUANTITY_ITEMS_ON_PAGE}` +
             `&key=${ keys.APIKey }`
         )
-        state.searchResult.items.length ? 
-            dispatch(addBookToBookList(data.items)):
-            dispatch(saveBookList(data));
+        !state.searchResult.items.length ? 
+            dispatch(saveBookList(data)):
+            data.items.length < 30?
+                dispatch(addBookToBookList(data.items)) && dispatch(correctTotalItems()):
+                dispatch(addBookToBookList(data.items)) 
         dispatch(isDataLoaded(true));
         dispatch(isLoadingBookList(false));
         dispatch(isLoadingNextPage(false));
