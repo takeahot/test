@@ -21,7 +21,7 @@ export const fetchBooksList = createAsyncThunk <
         dispatch(isDataLoaded(false));
         dispatch(resetdSearchResult())
         dispatch(onChangeSearchParams(searchParams.toString()))
-        const {data} = await api.get<Answer>('/volumes'+'?'+searchParams.toString()+'&maxResults='+QUANTITY_ITEMS_ON_PAGE)
+        const {data} = await api.get<Answer>('/volumes?'+searchParams.toString()+'&maxResults='+QUANTITY_ITEMS_ON_PAGE)
         dispatch(saveBookList(data));
         dispatch(isDataLoaded(true));
         dispatch(isLoadingBookList(false));

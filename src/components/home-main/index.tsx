@@ -12,7 +12,6 @@ import {
     IconButton, 
     Grid,
     InputLabel,
-    StackTypeMap,
     SelectChangeEvent,
 } from "@mui/material";
 
@@ -23,22 +22,16 @@ import { darkTheme } from '../../styles/theme';
 
 import { 
     Outlet, 
-    useSearchParams ,
-    useNavigate ,
-    useMatch
 } from "react-router-dom";
 
 import { categories , sortTypes } from "../../const";
 
-import { useAppDispatch , useAppSelector } from "../../hooks";
-import { saveBookList, isDataLoaded } from "../../store/action";
-
-import React, { ChangeEvent, FormEvent, KeyboardEvent, PropsWithChildren, useEffect, useRef, useState } from "react";
-import { fetchBooksList } from "../../store/api-actions";
-
-import paramsToObj from "../../utils/paramsToObj";
-import { URLSearchParamsInit } from 'react-router-dom'
-import { CategoriesType, SortTypesType } from "../../types/app";
+import { 
+    ChangeEvent,
+    FormEvent, 
+    PropsWithChildren, 
+    useState 
+} from "react";
 
 interface HomeMainProps extends PropsWithChildren {
     q: string;

@@ -3,22 +3,18 @@ import {
     Typography, 
     CardActionArea, 
     CardContent,
-    Button,
     Box,
     CircularProgress,
 } from '@mui/material'
 import LoadingButton from '@mui/lab/LoadingButton'
-import { useSearchParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchNextPageBooksList } from '../../store/api-actions';
 import { GrayCard , BookCover, CategoriesTypography } from '../../styles/searchResult';
 
-import answer from "../../types/serverAnswer"
 import E404 from '../e-404';
 
 const SearchResult = (): JSX.Element => {
 
-    const [searchParams] = useSearchParams();
     const { 
         searchResult : serverResponse , 
         loading ,

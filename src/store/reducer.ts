@@ -1,4 +1,3 @@
-import { DEFAULT_CATEGORY , DEFUALT_SORT_BY , DEFAULT_KEY_WORD} from "../const"
 import { Answer } from '../types/serverAnswer'
 import { createReducer } from "@reduxjs/toolkit";
 import { 
@@ -11,15 +10,13 @@ import {
     addBookToBookList,
     correctTotalItems,
 } from "./action";
-import { CategoriesType, SortTypesType } from "../types/app";
-
 
 const initialState = {
-    searchResult:<Answer>{
+    searchResult:{
         kind: "books#volumes",
         totalItems: 0,
         items: [],
-    },
+    } as Answer,
     loading: false as boolean,
     dataLoaded: false as boolean,
     searchParams: '' as string,

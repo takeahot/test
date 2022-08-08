@@ -1,5 +1,4 @@
 import { createAction } from '@reduxjs/toolkit'
-import { CategoriesType, SortTypesType } from '../types/app'
 import Answer, { BookItem } from '../types/serverAnswer'
 
 export const onChangeSearchParams = createAction<string>('data/onChangeSearchParams');

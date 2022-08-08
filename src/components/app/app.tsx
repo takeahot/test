@@ -1,5 +1,4 @@
 import { 
-    CircularProgress,
   Link,
 } from '@mui/material';
 
@@ -19,8 +18,6 @@ import RoutingAndHomeMain from '../routing-and-home-main';
 function App() {
 
     // TODO handle error answer
-    // TODO fix more then total is less length
-    // AIzaSyC7CZ1apJm2Xjpe9TaHKWdWMFIK6kvvHsc
 
     console.log('render app');
 
