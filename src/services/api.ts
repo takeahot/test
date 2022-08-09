@@ -8,7 +8,7 @@ const REQUEST_TIMEOUT = 5000
 const StatusCodeMapping: Record<number, boolean> = {
   [StatusCodes.BAD_REQUEST]: true,
   [StatusCodes.UNAUTHORIZED]: true,
-  [StatusCodes.NOT_FOUND]: true
+  [StatusCodes.NOT_FOUND]: true,
 };
 
 const shouldDisplayError = (response: AxiosResponse) => !!StatusCodeMapping[response.status];
@@ -25,7 +25,9 @@ export const createAPI = (): AxiosInstance => {
     (response) => response,
     (error: AxiosError<any>) => {
       if (error.response && shouldDisplayError(error.response)) {
-        processErrorHandle(error.response.data.error);
+        processErrorHandle(error.response.data.error.message);
+      } else if (error.response && error.code === 'ERR_NETWORK') {
+        processErrorHandle(error.message);
       }
 
       throw error;

@@ -26,16 +26,19 @@ export const fetchBooksList = createAsyncThunk <
 >(
     'data/fetchBooksList',
     async (searchParams , {dispatch, extra: api}) => {
-        console.log('data/fetchBooksList start')
         dispatch(isLoadingBookList(true));
         dispatch(isDataLoaded(false));
         dispatch(resetdSearchResult())
         dispatch(onChangeSearchParams(searchParams.toString()))
-        const {data} = await api.get<Answer>('/volumes?'+searchParams.toString()+'&maxResults='+QUANTITY_ITEMS_ON_PAGE)
+        const {data} = await api.get<Answer>(
+            `/volumes?` + 
+            `${searchParams.toString()}` +
+            `&maxResults=${QUANTITY_ITEMS_ON_PAGE}` +
+            `&key=${ keys.APIKey }`
+        )
         dispatch(saveBookList(data));
         dispatch(isDataLoaded(true));
         dispatch(isLoadingBookList(false));
-        console.log('data/fetchBooksList end')
     } 
 )
 
@@ -47,7 +50,7 @@ export const clearErrorAction = createAsyncThunk
     }
     >
     (
-        'game/clearError',
+        'error/clearError',
         (_arg,{dispatch}) => {
             setTimeout(
             () => dispatch(setError(null)),
@@ -67,7 +70,6 @@ export const fetchNextPageBooksList = createAsyncThunk <
 >(
     'data/fetchNextPageBooksList',
     async ( searchParams , { getState , dispatch, extra: api }) => {
-        console.log('data/fetchNextPageBooksList start')
         dispatch(isLoadingNextPage(true));
         const state = getState();
         let pageNumber: number = 0
@@ -94,6 +96,5 @@ export const fetchNextPageBooksList = createAsyncThunk <
         dispatch(isDataLoaded(true));
         dispatch(isLoadingBookList(false));
         dispatch(isLoadingNextPage(false));
-        console.log('data/fetchNextPageBooksList end')
     } 
 )

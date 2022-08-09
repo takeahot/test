@@ -75,7 +75,7 @@ const SearchResult = (): JSX.Element => {
                 </Grid>
             }
             <Box px={5} pb={2}>
-                { serverResponse.totalItems > serverResponse.items.length &&
+                { serverResponse.items && serverResponse.totalItems > serverResponse.items.length &&
                 <LoadingButton
                     loading={loadingNextPage}
                     fullWidth 

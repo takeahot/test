@@ -1,22 +1,21 @@
 import { FormEvent, useEffect } from "react";
 import { useMatch, useNavigate, useSearchParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks";
-import { isDataLoaded, saveBookList } from "../../store/action";
 import { fetchBooksList } from "../../store/api-actions";
 import HomeMain from "../home-main";
+import { ServerErr } from "../server-error";
 
 export const RoutingAndHomeMain = () => {
     const dispatch = useAppDispatch();
     const { 
         searchParams: dataSearchParams , 
-        loading: isLoading , 
-        dataLoaded: isLoaded 
     } = useAppSelector((state) => state);
     const [ searchParams , setSearchParams ] = useSearchParams();
     const params = Object.fromEntries(searchParams.entries())
     const navigate = useNavigate();
     const isUrlSearch = useMatch('/search-result')
     const isUrlRoot = useMatch('/')
+    const searchParamsString = searchParams.toString()
 
     useEffect(() => {
         if ((isUrlRoot || isUrlSearch) && searchParams.toString() && searchParams.toString() !== dataSearchParams) {
@@ -25,9 +24,9 @@ export const RoutingAndHomeMain = () => {
         } else if (isUrlSearch && !searchParams.toString()) {
             navigate('/');
         }
-    },[searchParams.toString()])
+    },[ searchParamsString , dataSearchParams , dispatch , isUrlRoot , isUrlSearch , navigate , searchParams ])
 
-    console.log('render RouterAndHomeMain')
+    // console.log('render RouterAndHomeMain')
     
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         const formData = new FormData(e.currentTarget);

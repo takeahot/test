@@ -32,6 +32,7 @@ import {
     PropsWithChildren, 
     useState 
 } from "react";
+import { ServerErr } from "../server-error";
 
 interface HomeMainProps extends PropsWithChildren {
     q: string;
@@ -46,7 +47,7 @@ const HomeMain = (Props: HomeMainProps ) => {
     const [ q , setQ ] = useState(qInit);
     const [ subject , setSubject ] = useState(subjectInit);
     const [ sortBy , setSortBy ] = useState(sortByItnit);
-    console.log('render HomeMain');
+    // console.log('render HomeMain');
     return (
         <>
             <Grid container flexDirection='column' flexWrap='nowrap' minHeight='366px' height="100%">
@@ -126,6 +127,7 @@ const HomeMain = (Props: HomeMainProps ) => {
                         </Box>
                     </HomePaper>
                 </ThemeProvider>
+                <ServerErr />
                 <Outlet />
             </Grid>
         </>

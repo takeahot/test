@@ -9,4 +9,4 @@ export const isDataLoaded = createAction<boolean>('data/isDataLoaded');
 export const isLoadingNextPage = createAction<boolean>('data/isLoadingNextPage');
 export const resetdSearchResult = createAction('data/resetdSearchResult');
 export const correctTotalItems = createAction('data/correctTotalItems');
-export const setError = createAction<string | null>('data/setError');
+export const setError = createAction<string | null>('error/setError');

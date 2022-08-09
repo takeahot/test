@@ -17,9 +17,7 @@ import RoutingAndHomeMain from '../routing-and-home-main';
 
 function App() {
 
-    // TODO handle error answer
-
-    console.log('render app');
+    // console.log('render app');
 
     return (
         <div className="App">
