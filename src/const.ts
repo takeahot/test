@@ -9,6 +9,8 @@ export const DEFAULT_KEY_WORD = "";
 
 export const QUANTITY_ITEMS_ON_PAGE = 30;
 
+export const TIMEOUT_SHOW_ERROR = 2000;
+
 export enum APIRoute {
     Volumes = '/volumes',
 }

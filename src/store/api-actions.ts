@@ -2,8 +2,18 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AppDispatch, State } from "../types/state";
 import { AxiosInstance } from "axios";
 import Answer from "../types/serverAnswer";
-import { addBookToBookList, correctTotalItems, isDataLoaded, isLoadingBookList, isLoadingNextPage, onChangeSearchParams, resetdSearchResult, saveBookList } from "./action";
-import { QUANTITY_ITEMS_ON_PAGE } from "../const";
+import { 
+    addBookToBookList,
+    correctTotalItems,
+    isDataLoaded,
+    isLoadingBookList,
+    isLoadingNextPage,
+    onChangeSearchParams,
+    resetdSearchResult,
+    saveBookList,
+    setError
+} from "./action";
+import { QUANTITY_ITEMS_ON_PAGE , TIMEOUT_SHOW_ERROR } from "../const";
 import { keys } from "../config";
 
 export const fetchBooksList = createAsyncThunk <
@@ -28,6 +38,23 @@ export const fetchBooksList = createAsyncThunk <
         console.log('data/fetchBooksList end')
     } 
 )
+
+export const clearErrorAction = createAsyncThunk
+    <void,
+    undefined,
+    {
+        dispatch: AppDispatch,
+    }
+    >
+    (
+        'game/clearError',
+        (_arg,{dispatch}) => {
+            setTimeout(
+            () => dispatch(setError(null)),
+            TIMEOUT_SHOW_ERROR,
+            );
+        },
+);
 
 export const fetchNextPageBooksList = createAsyncThunk <
     void,

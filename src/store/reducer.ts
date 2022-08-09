@@ -9,6 +9,7 @@ import {
     resetdSearchResult,
     addBookToBookList,
     correctTotalItems,
+    setError,
 } from "./action";
 
 const initialState = {
@@ -20,7 +21,8 @@ const initialState = {
     loading: false as boolean,
     dataLoaded: false as boolean,
     searchParams: '' as string,
-    loadingNextPage: false as boolean
+    loadingNextPage: false as boolean,
+    error: null as string | null
 }
 
 const reducer = createReducer( initialState , (builder) => {
@@ -56,6 +58,10 @@ const reducer = createReducer( initialState , (builder) => {
         })
         .addCase( correctTotalItems , ( state , action ) => {
             state.searchResult.totalItems = state.searchResult.items.length;
+            console.log(action.type)
+        })
+        .addCase( setError , ( state , action ) => {
+            state.error = action.payload;
             console.log(action.type)
         })
     })
