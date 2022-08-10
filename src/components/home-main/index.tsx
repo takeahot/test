@@ -28,32 +28,25 @@ import { categories , sortTypes } from "../../const";
 
 import { 
     ChangeEvent,
-    FormEvent, 
-    PropsWithChildren, 
     useState 
 } from "react";
 import { ServerErr } from "../server-error";
+import { useOnSearch } from "../../hooks/use-on-search";
 
-interface HomeMainProps extends PropsWithChildren {
-    q: string;
-    subject: string;
-    orderBy: string;
-    onChangeForm: (e: FormEvent<HTMLFormElement>) => void
-}
-
-const HomeMain = (Props: HomeMainProps ) => {
-    const { q: qInit , subject: subjectInit , orderBy: sortByItnit , onChangeForm } = Props;
+const HomeMain = () => {
+    const [ searchParams , onSearch ] = useOnSearch();
+    const params = Object.fromEntries(searchParams.entries())
     //make controled because MUI show error, when change uncontrolled select
-    const [ q , setQ ] = useState(qInit);
-    const [ subject , setSubject ] = useState(subjectInit);
-    const [ sortBy , setSortBy ] = useState(sortByItnit);
+    const [ q , setQ ] = useState(params.q);
+    const [ subject , setSubject ] = useState(params.subject);
+    const [ sortBy , setSortBy ] = useState(params.sortBy);
     // console.log('render HomeMain');
     return (
         <>
             <Grid container flexDirection='column' flexWrap='nowrap' minHeight='366px' height="100%">
                 <ThemeProvider theme={darkTheme}>
                     < HomePaper elevation={0} sx={{ pb: 3 }}>
-                        <Box component='form' id='search-form' onSubmit={onChangeForm} px={{xs: 1, sm: 8, md: 25, lg: 30, xl: 40}}>
+                        <Box component='form' id='search-form' onSubmit={onSearch} px={{xs: 1, sm: 8, md: 25, lg: 30, xl: 40}}>
                             <Grid container spacing={3}>
                                 <Grid item xs={12}>
                                     <MainHeader variant='h2' align='center'>
