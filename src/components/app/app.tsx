@@ -1,7 +1,3 @@
-import { 
-  Link,
-} from '@mui/material';
-
 import SearchResult from '../search-result';
 import SingleBook from '../single-book';
 import E404 from '../e-404';
@@ -12,8 +8,8 @@ import {
     Route,
 } from 'react-router-dom';
 
-import { Box } from '@mui/system';
 import RoutingAndHomeMain from '../routing-and-home-main';
+import { BackToSearch } from '../back-to-search';
 
 function App() {
 
@@ -24,20 +20,9 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path='/' element={<RoutingAndHomeMain />}>
-                        <Route path="search-result" element={
-                            <SearchResult />
-                        } />
+                        <Route path="search-result" element={<SearchResult />} />
                         <Route path="book">
-                            <Route 
-                                index
-                                element={
-                                    <Box my='100px' mx='auto' >
-                                        <Link variant='button' href='/search-result'>
-                                            Back to search-result page
-                                        </Link>
-                                    </Box>
-                                }
-                            />
+                            <Route index element={<BackToSearch />} />
                             <Route path=':bookId' element={<SingleBook />} /> 
                         </Route>
                     </Route>
