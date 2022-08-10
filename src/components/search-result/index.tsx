@@ -30,6 +30,7 @@ const SearchResult = (): JSX.Element => {
     } 
 
     if (!serverResponse) return <E404> ' нет ответа от сервера ' </E404>
+
     const resultCount = serverResponse.totalItems;
 
     // console.log('render search result');
