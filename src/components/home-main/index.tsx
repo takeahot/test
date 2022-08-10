@@ -34,13 +34,17 @@ import { ServerErr } from "../server-error";
 import { useOnSearch } from "../../hooks/use-on-search";
 
 const HomeMain = () => {
+
     const [ searchParams , onSearch ] = useOnSearch();
     const params = Object.fromEntries(searchParams.entries())
+
     //make controled because MUI show error, when change uncontrolled select
     const [ q , setQ ] = useState(params.q);
     const [ subject , setSubject ] = useState(params.subject);
     const [ sortBy , setSortBy ] = useState(params.sortBy);
+
     // console.log('render HomeMain');
+
     return (
         <>
             <Grid container flexDirection='column' flexWrap='nowrap' minHeight='366px' height="100%">

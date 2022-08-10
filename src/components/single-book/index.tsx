@@ -12,10 +12,14 @@ import { useAppSelector } from "../../hooks";
 import E404 from "../e-404"
 
 const SingleBook = () => {
-    console.log('render single book');
+
+    // console.log('render single book');
+    
     const searchResult = useAppSelector((state) => state.searchResult)
     const params = useParams();
+    
     if (!searchResult) return (<E404> <h1> 'книга не загружена' </h1> </E404>)
+
     if (params.bookId === undefined) return <E404 />
 
     const getBookItem = (id: string) => searchResult.items.find(item => item.id === id)

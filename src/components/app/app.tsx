@@ -15,6 +15,7 @@ import browserHistory from '../../browser-history';
 import HomeMain from '../home-main';
 
 function App() {
+
     useHandleSearchParams(browserHistory);
 
     // console.log('render app');
