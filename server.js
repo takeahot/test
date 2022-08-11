@@ -22,4 +22,3 @@ const express = require('express');
  });
  app.listen(port);
  
- // "start": "react-scripts start",

@@ -5,6 +5,7 @@ import {
     Breadcrumbs, 
     Link,
     Box,
+    Stack,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useAppSelector } from "../../hooks";
@@ -66,7 +67,7 @@ const SingleBook = () => {
                             bookData.volumeInfo.categories.map(item => {
                                 return (
                                     <Link 
-                                        href={item} 
+                                        href={'/search-result?q=subject:'+item} 
                                         underline='hover' 
                                         color='inherit' 
                                         key={item}
@@ -85,23 +86,23 @@ const SingleBook = () => {
                         </Typography>
                     </Grid>
                     <Grid item pt={1}>
-                        <Link 
-                            href={`/search-result?authors=
-                                ${
-                                    bookData.volumeInfo.authors ?
-                                        bookData.volumeInfo.authors.join(' , ') : 
-                                        ""
-                                }`}
-                            variant='body2' 
-                            color='inherit' 
-                            underline='always'
-                        >
-                            {
-                                bookData.volumeInfo.authors ?
-                                    bookData.volumeInfo.authors.join(' , ') : 
-                                    ""
+                        <Stack direction='row' spacing={1}>
+                            { bookData.volumeInfo.authors ?
+                                bookData.volumeInfo.authors.map(author => {
+                                    return (
+                                        <Link 
+                                            href={`/search-result?q=authors:"${author}"`}
+                                            variant='body2' 
+                                            color='inherit' 
+                                            underline='always'
+                                        >
+                                            {author}
+                                        </Link>
+                                    )
+                                })
+                                : null     
                             }
-                        </Link>
+                        </Stack>
                     </Grid>
                     <Grid item pt={3} pb={8}>
                         <Paper>
