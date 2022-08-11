@@ -7,7 +7,7 @@ import {
     Box,
     Stack,
 } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useAppSelector } from "../../hooks";
 
 import E404 from "../e-404"
@@ -18,15 +18,17 @@ const SingleBook = () => {
     
     const searchResult = useAppSelector((state) => state.searchResult)
     const params = useParams();
+    const navigate = useNavigate()
     
-    if (!searchResult) return (<E404> <h1> 'книга не загружена' </h1> </E404>)
-
     if (params.bookId === undefined) return <E404 />
 
-    const getBookItem = (id: string) => searchResult.items.find(item => item.id === id)
+    const haveBooks = () => !!searchResult.items;
+    if (!haveBooks()) return <Navigate to='/' /> 
+
+    const getBookItem = (id: string) => searchResult.items.find(item => item.id === id);
         
     const bookData = getBookItem(params.bookId);
-    if (bookData === undefined) return <E404 />
+    if (bookData === undefined) return <Navigate to='/' /> 
 
     return (
         <>
@@ -64,13 +66,13 @@ const SingleBook = () => {
                         <Breadcrumbs sx={{}}>
                         {
                             bookData.volumeInfo.categories ?
-                            bookData.volumeInfo.categories.map(item => {
+                            bookData.volumeInfo.categories.map((item , id) => {
                                 return (
                                     <Link 
                                         href={'/search-result?q=subject:'+item} 
                                         underline='hover' 
                                         color='inherit' 
-                                        key={item}
+                                        key={item + id}
                                     >
                                         {item}
                                     </Link>
@@ -88,13 +90,14 @@ const SingleBook = () => {
                     <Grid item pt={1}>
                         <Stack direction='row' spacing={1}>
                             { bookData.volumeInfo.authors ?
-                                bookData.volumeInfo.authors.map(author => {
+                                bookData.volumeInfo.authors.map((author, id) => {
                                     return (
                                         <Link 
                                             href={`/search-result?q=authors:"${author}"`}
                                             variant='body2' 
                                             color='inherit' 
                                             underline='always'
+                                            key={author + id}
                                         >
                                             {author}
                                         </Link>

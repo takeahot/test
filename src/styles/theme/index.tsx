@@ -45,7 +45,22 @@ const theme = createTheme({
 export const darkTheme = createTheme({
     palette: {
         mode: 'dark',
-    }
+    },
+    components: {
+        MuiLink: {
+            defaultProps: {
+                component: LinkBehavior,
+            } as LinkProps,
+        },
+        MuiButtonBase: {
+            defaultProps: {
+                LinkComponent: LinkBehavior,
+            },
+        },
+    },
+   
 })
+
+
 
 export default theme;

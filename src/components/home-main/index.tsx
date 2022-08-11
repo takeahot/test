@@ -28,6 +28,7 @@ import { categories , sortTypes } from "../../const";
 
 import { 
     ChangeEvent,
+    useEffect,
     useState 
 } from "react";
 import { ServerErr } from "../server-error";
@@ -35,13 +36,7 @@ import { useOnSearch } from "../../hooks/use-on-search";
 
 const HomeMain = () => {
 
-    const [ searchParams , onSearch ] = useOnSearch();
-    const params = Object.fromEntries(searchParams.entries())
-
-    //make controled because MUI show error, when change uncontrolled select
-    const [ q , setQ ] = useState(params.q);
-    const [ subject , setSubject ] = useState(params.subject);
-    const [ sortBy , setSortBy ] = useState(params.sortBy);
+    const [ searchParams , onSearch , q , subject , sortBy,  setQ , setSubject , setSortBy ] = useOnSearch();
 
     // console.log('render HomeMain');
 
