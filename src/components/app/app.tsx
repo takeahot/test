@@ -25,6 +25,23 @@ function App() {
             <HistoryRouter history={browserHistory}>
                 <Routes>
                     <Route path='/' element={<HomeMain />}>
+                        <Route index element={
+                            <>
+                                <div style={{margin: 'auto'}}>
+                                    <h3 >
+                                        Book search with category selection and convenient sorting
+                                    </h3>
+                                    <ul>
+                                        <li>Select category</li>
+                                        <li>Select sort method</li>
+                                        <li>Type keywords</li>
+                                        <li>Push Enter or click magnifier</li>
+                                    </ul>
+                                    <p> Click to book and read details. Enjoy! </p>
+                                </div>
+                            </>
+                        }
+                         />
                         <Route path="search-result" element={<SearchResult />} />
                         <Route path="book">
                             <Route index element={<BackToSearch />} />
