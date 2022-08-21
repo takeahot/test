@@ -5,11 +5,11 @@ import Answer from "../types/serverAnswer";
 import { 
     addBookToBookList,
     correctTotalItems,
-    isDataLoaded,
+    isBookListLoaded,
     isLoadingBookList,
     isLoadingNextPage,
     onChangeSearchParams,
-    resetdSearchResult,
+    resetBookList,
     saveBookList,
     setError
 } from "./action";
@@ -27,8 +27,8 @@ export const fetchBooksList = createAsyncThunk <
     'data/fetchBooksList',
     async (searchParams , {dispatch, extra: api}) => {
         dispatch(isLoadingBookList(true));
-        dispatch(isDataLoaded(false));
-        dispatch(resetdSearchResult())
+        dispatch(isBookListLoaded(false));
+        dispatch(resetBookList())
         dispatch(onChangeSearchParams(searchParams.toString()))
         const {data} = await api.get<Answer>(
             `/volumes?` + 
@@ -37,7 +37,7 @@ export const fetchBooksList = createAsyncThunk <
             `&key=${ keys.APIKey }`
         )
         dispatch(saveBookList(data));
-        dispatch(isDataLoaded(true));
+        dispatch(isBookListLoaded(true));
         dispatch(isLoadingBookList(false));
     } 
 )
@@ -75,8 +75,8 @@ export const fetchNextPageBooksList = createAsyncThunk <
         let pageNumber: number = 0
         if (!state.searchResult.items.length) {
             dispatch(isLoadingBookList(true));
-            dispatch(isDataLoaded(false));
-            dispatch(resetdSearchResult())
+            dispatch(isBookListLoaded(false));
+            dispatch(resetBookList())
             dispatch(onChangeSearchParams(searchParams.toString()))
         } else {
             pageNumber = state.searchResult.items.length / QUANTITY_ITEMS_ON_PAGE
@@ -93,7 +93,7 @@ export const fetchNextPageBooksList = createAsyncThunk <
             data.items.length < 30?
                 dispatch(addBookToBookList(data.items)) && dispatch(correctTotalItems()):
                 dispatch(addBookToBookList(data.items)) 
-        dispatch(isDataLoaded(true));
+        dispatch(isBookListLoaded(true));
         dispatch(isLoadingBookList(false));
         dispatch(isLoadingNextPage(false));
     } 

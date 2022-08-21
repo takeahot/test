@@ -1,6 +1,6 @@
 import { FlashOnRounded } from "@mui/icons-material"
-import { AccessInfo, BookItem, SearchInfo, SaleInfo, VolumeInfo } from "./types/serverAnswer"
-import dataForCheck from "./types/dataForCheck"
+import { AccessInfo, BookItem, SearchInfo, SaleInfo, VolumeInfo } from "../types/serverAnswer"
+import dataForCheck from "../types/dataForCheck"
 
 const answer = {
     "kind": "books#volumes",

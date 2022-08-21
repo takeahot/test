@@ -4,9 +4,9 @@ import {
     onChangeSearchParams,
     isLoadingBookList, 
     saveBookList,
-    isDataLoaded,
+    isBookListLoaded,
     isLoadingNextPage,
-    resetdSearchResult,
+    resetBookList,
     addBookToBookList,
     correctTotalItems,
     setError,
@@ -30,26 +30,26 @@ const reducer = createReducer( initialState , (builder) => {
         .addCase( onChangeSearchParams , ( state , action ) => {
             state.searchParams = action.payload
         })
+        .addCase( resetBookList , ( state ) => {
+            state.searchResult = initialState.searchResult;
+            state.searchParams = initialState.searchParams;
+        })
         .addCase( saveBookList , ( state , action ) => {
             state.searchResult = action.payload;
         })
         .addCase( isLoadingBookList , ( state , action ) => {
             state.loading = action.payload;
         })
-        .addCase( isDataLoaded , ( state , action ) => {
+        .addCase( isBookListLoaded , ( state , action ) => {
             state.dataLoaded = action.payload;
-        })
-        .addCase( isLoadingNextPage , ( state , action ) => {
-            state.loadingNextPage = action.payload;
-        })
-        .addCase( resetdSearchResult , ( state , action ) => {
-            state.searchResult = initialState.searchResult;
-            state.searchParams = initialState.searchParams;
         })
         .addCase( addBookToBookList , ( state , action ) => {
             state.searchResult.items = [...state.searchResult.items, ...action.payload];
         })
-        .addCase( correctTotalItems , ( state , action ) => {
+        .addCase( isLoadingNextPage , ( state , action ) => {
+            state.loadingNextPage = action.payload;
+        })
+        .addCase( correctTotalItems , ( state ) => {
             state.searchResult.totalItems = state.searchResult.items.length;
         })
         .addCase( setError , ( state , action ) => {
