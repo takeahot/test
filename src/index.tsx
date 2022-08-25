@@ -4,11 +4,11 @@ import './index.css';
 import App from './components/app/app';
 
 import { ThemeProvider } from '@mui/material/styles';
-import theme from './styles/theme'
+import theme from './styles/theme';
 import { CssBaseline } from '@mui/material';
 
 import { store } from './store';
-import { Provider } from 'react-redux'
+import { Provider } from 'react-redux';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

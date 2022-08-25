@@ -102,4 +102,10 @@ export type Answer = {
             "items": Array<BookItem>
 } 
 
+export type ErrorData = {
+            "error" : {
+                message: string;
+            }
+}
+
 export default Answer
